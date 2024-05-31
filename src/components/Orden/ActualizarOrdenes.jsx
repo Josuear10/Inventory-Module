@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-  
+import Swal from "sweetalert2";
+
 export default function ActualizarOrden() {
     const { id } = useParams();
     const [tra_id, setTid] = useState('');
@@ -36,9 +37,22 @@ export default function ActualizarOrden() {
         })
         .then(res => {
             console.log(res);
-            navigate('/');
+            Swal.fire({
+                icon: "success",
+                title: "Listo...",
+                text: "Orden actualizada exitosamente!",
+            }).then(() => {
+                navigate('/ordenes');  
+            });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo ha salido mal!",
+            });
+        });
 }
 
 return (

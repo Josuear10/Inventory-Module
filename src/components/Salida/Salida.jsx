@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Salida() {
   const [Salida, setSalida] = useState([]);
@@ -20,13 +21,36 @@ function Salida() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:6060/salida/${id}`);
-      window.location.reload();
+        const result = await Swal.fire({
+            title: "Estás seguro?",
+            text: "No serás capaz de revertirlo!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Sí, eliminarlo!"
+        });
+
+        if (result.isConfirmed) {
+            await axios.delete(`http://localhost:6060/salida/${id}`);
+            Swal.fire({
+                title: "Eliminado!",
+                text: "Salida eliminada.",
+                icon: "success"
+            }).then(() => {
+                window.location.reload();
+            });
+        }
     } catch (err) {
-      console.log(err);
-      // Manejar el error de eliminación aquí
+        console.log(err);
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Algo ha salido mal!",
+        });
     }
-  };
+}
 
   return (
     <div className='container-fluid d-flex flex-column justify-content-center align-items-center bg-white'>

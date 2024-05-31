@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import Swal from  'sweetalert2';
 
 export default function ActualizarEntrada() {
     const { id } = useParams();
@@ -45,11 +46,24 @@ export default function ActualizarEntrada() {
             ent_preciosalida,
             prv_id
         })
-            .then(res => {
-                console.log(res);
-                navigate('/');
-            })
-            .catch(err => console.log(err));
+        .then(res => {
+            console.log(res);
+            Swal.fire({
+                icon: "success",
+                title: "Listo...",
+                text: "Entrada actualizada exitosamente!",
+            }).then(() => {
+                navigate('/entrada');  
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo ha salido mal!",
+            });
+        });
     }
 
     return (

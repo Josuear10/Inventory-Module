@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
-// eslint-disable-next-line 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Swal from "sweetalert2";
+
   
 function ActualizarOficinas() {
     const { id } = useParams();
@@ -46,9 +47,22 @@ function ActualizarOficinas() {
         })
         .then(res => {
             console.log(res);
-            navigate('/');
+            Swal.fire({
+                icon: "success",
+                title: "Listo...",
+                text: "Oficina actualizada exitosamente!",
+            }).then(() => {
+                navigate('/oficina');  
+            });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo ha salido mal!",
+            });
+        });
 }
 
 return (

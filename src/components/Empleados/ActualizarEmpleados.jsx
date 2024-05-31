@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function ActualizarEmpleados() {
     const { id } = useParams();
@@ -37,11 +38,24 @@ function ActualizarEmpleados() {
             emp_segundoapellido,
             emp_puesto
         })
-            .then(res => {
-                console.log(res);
-                navigate('/');
-            })
-            .catch(err => console.log(err));
+        .then(res => {
+            console.log(res);
+            Swal.fire({
+                icon: "success",
+                title: "Listo...",
+                text: "Empleado actualizado exitosamente!",
+            }).then(() => {
+                navigate('/empleados');  
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo ha salido mal!",
+            });
+        });
     }
 
     return (

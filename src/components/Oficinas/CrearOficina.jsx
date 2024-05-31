@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function CrearOficina() {
     const [ofi_numero, setNumero] = useState('');
@@ -17,8 +18,22 @@ function CrearOficina() {
         axios.post('http://localhost:6060/oficina', {  ofi_nombre, ofi_numero, ofi_calle, ofi_zona, ofi_avenida, ofi_municipio, ofi_departamento})
         .then(res => {
             console.log(res);
-            navigate('/');  
-        }).catch(err => console.log(err));
+            Swal.fire({
+                icon: "success",
+                title: "Creado...",
+                text: "Oficina creada exitosamente!",
+            }).then(() => {
+                navigate('/oficina');  
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo ha salido mal!",
+            });
+        });
     }
 
     return (

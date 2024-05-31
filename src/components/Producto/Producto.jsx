@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2'
 // import "./Producto.css"; // Importa el archivo CSS para estilos específicos
 
 export default function Producto() {
@@ -20,11 +21,34 @@ export default function Producto() {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:6060/producto/${id}`);
-            window.location.reload();
+            const result = await Swal.fire({
+                title: "Estás seguro?",
+                text: "No serás capaz de revertirlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Cancelar",
+                confirmButtonText: "Sí, eliminarlo!"
+            });
+    
+            if (result.isConfirmed) {
+                await axios.delete(`http://localhost:6060/producto/${id}`);
+                Swal.fire({
+                    title: "Eliminado!",
+                    text: "Producto eliminado.",
+                    icon: "success"
+                }).then(() => {
+                    window.location.reload();
+                });
+            }
         } catch (err) {
             console.log(err);
-            // Manejar el error de eliminación aquí
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo ha salido mal!",
+            });
         }
     }
     

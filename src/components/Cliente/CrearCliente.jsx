@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function CrearCliente() {
     const [cli_nit, setNit] = useState('');
@@ -32,8 +33,22 @@ export default function CrearCliente() {
         cli_zona })
         .then(res => {
             console.log(res);
-            navigate('/');  
-        }).catch(err => console.log(err));
+            Swal.fire({
+                icon: "success",
+                title: "Creado...",
+                text: "Cliente creado exitosamente!",
+            }).then(() => {
+                navigate('/cliente');  
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo ha salido mal!",
+            });
+        });
     }
 
     return (

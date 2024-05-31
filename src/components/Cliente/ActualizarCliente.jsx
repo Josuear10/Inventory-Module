@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
-
+import Swal
+ from "sweetalert2";
 function ActualizarCliente() {
     const { id } = useParams();
     const [cli_id, setIdcliente] = useState('');
@@ -58,12 +59,24 @@ function ActualizarCliente() {
             cli_avenida,
             cli_zona 
         })
-            .then(res => {
-                console.log(res);
-                // REVISAR RUTA
-                navigate('/cliente'); 
-            })
-            .catch(err => console.log(err));
+        .then(res => {
+            console.log(res);
+            Swal.fire({
+                icon: "success",
+                title: "Listo...",
+                text: "Cliente actualizado exitosamente!",
+            }).then(() => {
+                navigate('/cliente');  
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo ha salido mal!",
+            });
+        });
     }
 
     return (

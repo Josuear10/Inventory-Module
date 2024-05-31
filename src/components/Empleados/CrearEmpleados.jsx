@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function CrearEmpleados() {
     const [emp_primernombre, setPrimernombre] = useState('');
@@ -19,10 +20,24 @@ function CrearEmpleados() {
             emp_segundoapellido,
             emp_puesto
          })
-        .then(res => {
+         .then(res => {
             console.log(res);
-            navigate('/');  
-        }).catch(err => console.log(err));
+            Swal.fire({
+                icon: "success",
+                title: "Creado...",
+                text: "Empleado creado exitosamente!",
+            }).then(() => {
+                navigate('/empleados');  
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo ha salido mal!",
+            });
+        });
     }
 
     return (

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
-// eslint-disable-next-line
 import "bootstrap/dist/css/bootstrap.min.css";
+import Swal from "sweetalert2";
 
 function ActualizarSalida() {
   const { id } = useParams();
@@ -56,11 +56,24 @@ function ActualizarSalida() {
         cli_id,
 
       })
-      .then((res) => {
+      .then(res => {
         console.log(res);
-        navigate("/");
-      })
-      .catch((err) => console.log(err));
+        Swal.fire({
+            icon: "success",
+            title: "Listo...",
+            text: "Salida actualizada exitosamente!",
+        }).then(() => {
+            navigate('/salida');  
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Algo ha salido mal!",
+        });
+    });
   }
 
   return (

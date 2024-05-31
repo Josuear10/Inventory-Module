@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function CrearDetalleProducto() {
     const [pro_id, setIdproducto] = useState('');
@@ -17,10 +18,24 @@ export default function CrearDetalleProducto() {
             dtp_categoria,
             dtp_stockminimo
          })
-        .then(res => {
+         .then(res => {
             console.log(res);
-            navigate('/');  
-        }).catch(err => console.log(err));
+            Swal.fire({
+                icon: "success",
+                title: "Creado...",
+                text: "Detalle creado exitosamente!",
+            }).then(() => {
+                navigate('/detalleproducto');  
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo ha salido mal!",
+            });
+        });
     }
 
     return (

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-
+import Swal from "sweetalert2";
 function CrearSalida() {
  const [pro_id, setPid] = useState("");
  const [sal_fechasalida, setFsalida] = useState("");
@@ -25,11 +25,24 @@ function CrearSalida() {
         sal_preciosalida,
         cli_id,
       })
-      .then((res) => {
+      .then(res => {
         console.log(res);
-        navigate("/");
-      })
-      .catch((err) => console.log(err));
+        Swal.fire({
+            icon: "success",
+            title: "Creado...",
+            text: "Salida creada exitosamente!",
+        }).then(() => {
+            navigate('/salida');  
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Algo ha salido mal!",
+        });
+    });
   }
 
   return (
@@ -49,26 +62,29 @@ function CrearSalida() {
             />
           </div>
           <div className="mb-2">
-            <label htmlFor="">Fecha Salida</label>
-            <input
-              type="text"
-              placeholder="Ingrese la fecha de salida"
-              className="form-control"
-              value={sal_fechasalida}
-              onChange={(e) => setFsalida(e.target.value)}
-            />
+          <label htmlFor="ent_fechsalida">Fecha Salida</label>
+          <input
+          type="date"
+          id="ent_fechasalida"
+          className="form-control"
+          value={sal_fechasalida}
+          onChange={e => setFsalida(e.target.value)}
+          />
           </div>
 
           <div className="mb-2">
-            <label htmlFor="">Movimiento</label>
-            <input
-              type="text"
-              placeholder="Ingrese el movimiento"
-              className="form-control"
-              value={sal_movimiento}
-              onChange={(e) => setMovimiento(e.target.value)}
-            />
+          <label htmlFor="ent_movimiento">Movimiento</label>
+          <select
+          id="ent_movimiento"
+          className="form-control"
+          value={sal_movimiento}
+          onChange={e => setMovimiento(e.target.value)}>
+          <option value="">Seleccione un movimiento</option>
+          <option value="1">1. Ventas</option>
+          <option value="2">2. Devolucion y rebaja sobre compras</option>
+          </select>
           </div>
+
           <div className="mb-2">
             <label htmlFor="">Unidad de Medida</label>
             <input

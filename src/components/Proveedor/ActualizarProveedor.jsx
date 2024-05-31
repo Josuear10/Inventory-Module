@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
 // eslint-disable-next-line 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Swal from 'sweetalert2';
+
   
 function ActualizarProveedor() {
     const { id } = useParams();
@@ -53,11 +55,24 @@ function ActualizarProveedor() {
             prv_municipio,
             prv_departamento
         })
-            .then(res => {
-                console.log(res);
-                navigate('/');
-            })
-            .catch(err => console.log(err));
+        .then(res => {
+          console.log(res);
+          Swal.fire({
+              icon: "success",
+              title: "Listo...",
+              text: "Proveedor actualizado exitosamente!",
+          }).then(() => {
+              navigate('/proveedores');  
+          });
+      })
+      .catch(err => {
+          console.log(err);
+          Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Algo ha salido mal!",
+          });
+      });
     }
 
     return (

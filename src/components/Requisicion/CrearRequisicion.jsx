@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function CrearRequisicion() {
     const [req_fecha, setFecha] = useState('');
@@ -19,10 +20,24 @@ function CrearRequisicion() {
             emp_id,
             ofi_id
          })
-        .then(res => {
+         .then(res => {
             console.log(res);
-            navigate('/');  
-        }).catch(err => console.log(err));
+            Swal.fire({
+                icon: "success",
+                title: "Creado...",
+                text: "Requisicion creada exitosamente!",
+            }).then(() => {
+                navigate('/requisicion');  
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo ha salido mal!",
+            });
+        });
     }
 
     return (

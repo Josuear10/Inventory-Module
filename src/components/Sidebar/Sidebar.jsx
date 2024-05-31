@@ -5,12 +5,22 @@ import {
   AiOutlineLeft,
   AiOutlineHome,
   AiOutlineApartment,
+  AiOutlineUser, 
+  AiOutlineCheck, 
+  AiOutlineClose,
   AiOutlineSetting,
-} from "react-icons/ai";
+  AiOutlineBarChart,
+  AiOutlineUsergroupAdd,
+  AiOutlineSwitcher,
+  AiOutlineProject,
+  AiOutlineProfile,
+  AiOutlineInbox,
+  } from "react-icons/ai";
 import { MdOutlineAnalytics, MdLogout } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../../App";
+
 export function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const ModSidebaropen = () => {
     setSidebarOpen(!sidebarOpen);
@@ -20,9 +30,17 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
     setTheme((theme) => (theme === "light" ? "dark" : "light"));
   };
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+  const [reportesOpen, setReportesOpen] = useState(false);
+  const [otrosOpen, setOtrosOpen] = useState(false);
+
+  const toggleReportes = () => {
+    setReportesOpen(!reportesOpen);
+    if (otrosOpen) setOtrosOpen(false); // Cierra el otro dropdown si está abierto
+  };
+
+  const toggleOtros = () => {
+    setOtrosOpen(!otrosOpen);
+    if (reportesOpen) setReportesOpen(false); // Cierra el otro dropdown si está abierto
   };
 
   return (
@@ -47,39 +65,71 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
           </NavLink>
         </div>
       ))}
-      <div className="LinkContainer" onClick={toggleDropdown}>
-      <div className="DropdownButton">
-        <div className="Linkicon">
-          <MdOutlineAnalytics />
+      <div className="LinkContainer" onClick={toggleOtros}>
+        <div className="DropdownButton">
+          <div className="Linkicon">
+            <MdOutlineAnalytics />
+          </div>
+          {sidebarOpen && <span>Otros</span>}
         </div>
-        {sidebarOpen && <span>Otros</span>}
-      </div>
-        {dropdownOpen && (
+        {otrosOpen && (
           <div className="DropdownContent">
-          <NavLink to="/empleados" className="nav-link">
-            <MdOutlineAnalytics /> Empleados
+            <NavLink to="/empleados" className="dropdown-link">
+              <AiOutlineUsergroupAdd /> Empleados
+            </NavLink>
+            <NavLink to="/detalleproducto" className="dropdown-link">
+              <AiOutlineInbox /> Detalle Producto
+            </NavLink>
+            <NavLink to="/oficina" className="dropdown-link">
+              <MdOutlineAnalytics /> Oficinas
+            </NavLink>
+            <NavLink to="/ordenes" className="dropdown-link">
+              <AiOutlineProfile /> Órdenes
+            </NavLink>
+            <NavLink to="/proveedores" className="dropdown-link">
+              <MdOutlineAnalytics /> Proveedores
+            </NavLink>
+            <NavLink to="/cliente" className="dropdown-link">
+              <AiOutlineUser /> Clientes
+            </NavLink>
+            <NavLink to="/detalleorden" className="dropdown-link">
+              <MdOutlineAnalytics /> Detalle Órdenes
+            </NavLink>
+          </div>
+        )}
+      </div>
+      <Divider />
+      <div className="LinkContainer" onClick={toggleReportes}>
+        <div className="DropdownButton">
+          <div className="Linkicon">
+            <AiOutlineBarChart />
+          </div>
+          {sidebarOpen && <span>Reportes</span>}
+        </div>
+        {reportesOpen && (
+          <div className="DropdownContent">
+          <NavLink to="/reporteentrada" className="nav-link">
+            <MdOutlineAnalytics /> Entradas
           </NavLink>
-          <NavLink to="/requisicion" className="nav-link">
-            <MdOutlineAnalytics /> Requisicion
+          <NavLink to="/reportesalida" className="nav-link">
+            <MdOutlineAnalytics /> Salidas
           </NavLink>
-          <NavLink to="/oficina" className="nav-link">
-            <MdOutlineAnalytics /> Oficinas
+          <NavLink to="/kardex" className="nav-link">
+            <MdOutlineAnalytics /> Kardex
           </NavLink>
-          <NavLink to="/ordenes" className="nav-link">
-            <MdOutlineAnalytics /> Órdenes
+          <NavLink to="/stock" className="nav-link">
+            <MdOutlineAnalytics /> Productos Disponibles
           </NavLink>
-          <NavLink to="/proveedores" className="nav-link">
-            <MdOutlineAnalytics /> Proveedores
+          <NavLink to="/topproductos" className="nav-link">
+            <MdOutlineAnalytics /> Top Productos Vendidos
           </NavLink>
-          <NavLink to="/salida" className="nav-link">
-            <MdOutlineAnalytics /> Salida
-          </NavLink>
-          <NavLink to="/detalleorden" className="nav-link">
-            <MdOutlineAnalytics /> Detalle Órdenes
+          <NavLink to="/topproveedores" className="nav-link">
+            <MdOutlineAnalytics /> Top Proveedores
           </NavLink>
           </div>
         )}
       </div>
+      
       <Divider />
       {secondarylinksArray.map(({ icon, label, to }) => (
         <div className="LinkContainer" key={label}>
@@ -129,32 +179,26 @@ const linksArray = [
     to: "/producto",
   },
   {
-    label: "Entrada",
-    icon: <MdOutlineAnalytics />,
+    label: "Entradas",
+    icon: <AiOutlineCheck   />,
     to: "/entrada",
   },
   {
-    label: "Cliente",
-    icon: <MdOutlineAnalytics />,
-    to: "/cliente",
+    label: "Salidas",
+    icon: <AiOutlineClose />,
+    to: "/salida",
   },
   {
-    label: "Detalle Producto",
-    icon: <MdOutlineAnalytics />,
-    to: "/detalleproducto",
+    label: "Requisiciones",
+    icon: <AiOutlineSwitcher    />,
+    to: "/requisicion",
   },
-
 ];
 const secondarylinksArray = [
   {
-    label: "Configuración",
-    icon: <AiOutlineSetting />,
-    to: "/null",
-  },
-  {
     label: "Salir",
     icon: <MdLogout />,
-    to: "/null",
+    to: "/login",
   },
 ];
 //#endregion
@@ -239,6 +283,9 @@ const Container = styled.div`
     padding: 0 15%;
     :hover {
       background: ${(props) => props.theme.bg3};
+    }
+    .dropdown-link {
+      display: ${({ isOpen }) => (isOpen ? `flex` : `none`)};
     }
     .Links {
       display: flex;
@@ -354,4 +401,5 @@ const Divider = styled.div`
   margin: ${v.lgSpacing} 0;
 `;
 
+//Abajo de Link-container:
 

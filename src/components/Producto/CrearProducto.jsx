@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 export default function CrearProducto() {
     
@@ -14,13 +15,35 @@ export default function CrearProducto() {
 
     const navigate = useNavigate();
 
-    function handleSubmit(event){
+    function handleSubmit(event) {
         event.preventDefault();
-        axios.post('http://localhost:6060/producto', {  pro_nombre, pro_unidaddemedida, pro_descripcion, pro_cantidad, pro_valor, ofi_id })
+        
+        axios.post('http://localhost:6060/producto', { 
+            pro_nombre, 
+            pro_unidaddemedida, 
+            pro_descripcion, 
+            pro_cantidad, 
+            pro_valor, 
+            ofi_id 
+        })
         .then(res => {
             console.log(res);
-            navigate('/');  
-        }).catch(err => console.log(err));
+            Swal.fire({
+                icon: "success",
+                title: "Creado...",
+                text: "Producto creado exitosamente!",
+            }).then(() => {
+                navigate('/producto');  
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo ha salido mal!",
+            });
+        });
     }
 
     return (

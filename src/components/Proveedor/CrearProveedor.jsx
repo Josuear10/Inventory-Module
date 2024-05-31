@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function CrearProveedor() {
     
@@ -19,9 +20,23 @@ function CrearProveedor() {
         event.preventDefault();
         axios.post('http://localhost:6060/proveedores', {  prv_nit, prv_razonsocial, prv_nombre,prv_nlocal, prv_calle, prv_zona, prv_avenida, prv_municipio, prv_departamento})
         .then(res => {
-            console.log(res);
-            navigate('/');  
-        }).catch(err => console.log(err));
+          console.log(res);
+          Swal.fire({
+              icon: "success",
+              title: "Creado...",
+              text: "Proveedor creado exitosamente!",
+          }).then(() => {
+              navigate('/proveedores');  
+          });
+      })
+      .catch(err => {
+          console.log(err);
+          Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Algo ha salido mal!",
+          });
+      });
     }
 
     return (

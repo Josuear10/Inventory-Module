@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes } from 'react-router-dom';
-import HomeRoutes from './homeRoutes';
+import GreetingRoutes from './greetingRoutes';
 import ProductRoutes from './ProductRoutes';
 import InputRoutes from './inputRoutes';
 import ClientRoutes from './clientRoutes';
@@ -12,11 +12,12 @@ import OrderRoutes from './orderRoutes';
 import ProviderRoutes from './providerRoutes';
 import OutputRoutes from './outputRoutes';
 import OrderDetailsRoutes from './orderDetailsRoutes'
+import LoginRoutes from './LoginRoutes';
 
 export default function AppRoutes() {
   return (
     <>
-      <HomeRoutes /> 
+      <GreetingRoutes /> 
       <ProductRoutes /> 
       <InputRoutes/>
       <ClientRoutes/> 
@@ -28,6 +29,7 @@ export default function AppRoutes() {
       <ProviderRoutes/>
       <OutputRoutes/>
       <OrderDetailsRoutes/>
+      <LoginRoutes/>
     </>
   );
 }
